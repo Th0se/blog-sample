@@ -1,0 +1,11 @@
+/** @format */
+
+.authentication_input {
+    @apply input input-bordered gap-2;
+    @apply grid grid-cols-5;
+    @apply items-center;
+}
+
+.authentication_input:focus-within {
+    @apply ring-4 ring-primary ring-opacity-50;
+}

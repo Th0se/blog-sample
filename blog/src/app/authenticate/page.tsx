@@ -1,10 +1,14 @@
 /** @format */
 
 import { FunctionComponent } from 'react';
-import Link from 'next/link';
 import './authenticate.css';
+import { signIn } from '@/app/auth';
 
 const Authenticate: FunctionComponent = () => {
+    const handleGitHubLogin = async () => {
+        'use server';
+        await signIn('github');
+    };
     return (
         <div className='grid justify-center'>
             <h1 className='text-accent text-center mt-2'>Authenticate</h1>
@@ -23,34 +27,16 @@ const Authenticate: FunctionComponent = () => {
                             className='col-start-3 col-span-3'
                         />
                     </label>
-                    <label
-                        htmlFor='password'
-                        className='authentication_input'
-                    >
-                        Password:
-                        <input
-                            type='password'
-                            name='password'
-                            id='password'
-                            className='col-start-3 col-span-3'
-                        />
-                    </label>
                 </form>
                 <button className='btn btn-primary mt-2'>Authenticate</button>
             </div>
             <div className='grid grid-cols-2 items-center justify-center mt-2'>
-                <Link
-                    href='/authenticate/register'
-                    className='link link-primary link-hover'
+                <button
+                    onClick={handleGitHubLogin}
+                    className='btn btn-primary col-span-2'
                 >
-                    Register
-                </Link>
-                <Link
-                    href='/authenticate/recovery'
-                    className='link link-primary link-hover text-right'
-                >
-                    Account recovery
-                </Link>
+                    Github
+                </button>
             </div>
         </div>
     );

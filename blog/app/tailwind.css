@@ -1,0 +1,14 @@
+/** @format */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active_tab {
+    @apply tab-active;
+    @apply bg-accent text-accent-content !important;
+}
+
+.tab_list {
+    @apply lg:col-span-3 lg:col-start-2 grid grid-cols-2 text-center tabs tabs-boxed bg-neutral border-neutral-content;
+}

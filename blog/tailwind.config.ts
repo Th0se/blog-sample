@@ -4,31 +4,25 @@ import type { Config } from 'tailwindcss';
 import daisyUI from 'daisyui';
 
 export default {
-    content: [
-        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/app/**/*.{js,ts,jsx,tsx,mdx,css}',
-    ],
+    content: ['./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}'],
     theme: {
         extend: {
-            colors: {
-                background: 'var(--background)',
-                foreground: 'var(--foreground)',
+            fontFamily: {
+                sans: [
+                    'Inter',
+                    'ui-sans-serif',
+                    'system-ui',
+                    'sans-serif',
+                    'Apple Color Emoji',
+                    'Segoe UI Emoji',
+                    'Segoe UI Symbol',
+                    'Noto Color Emoji',
+                ],
             },
         },
     },
     plugins: [daisyUI],
     daisyui: {
-        themes: [
-            'dark',
-            'light',
-            'fantasy',
-            'luxury',
-            'coffee',
-            'dim',
-            'sunset',
-            'acid',
-            'night',
-        ],
+        themes: ['sunset'],
     },
 } satisfies Config;

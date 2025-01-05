@@ -8,11 +8,9 @@ const About: FunctionComponent = () => {
     return (
         <div>
             <Header />
-            <main className='bg-base p-2'>
+            <main>
                 <div>
-                    <h1 className='text-center text-[2rem] md:text-[4rem] lg:text-[5rem]'>
-                        About
-                    </h1>
+                    <h1>About</h1>
                 </div>
                 <div>
                     <div className='lg:grid lg:grid-cols-5'>
@@ -40,7 +38,6 @@ const About: FunctionComponent = () => {
                             </NavLink>
                         </div>
                     </div>
-
                     <div className='lg:grid lg:grid-cols-3'>
                         <Outlet />
                     </div>

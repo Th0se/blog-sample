@@ -17,13 +17,8 @@ model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   email String @unique
   password String
+  role String
   comments Comment[]
-}
-
-model Maintainer {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  email String @unique
-  password String
 }
 
 model Post {

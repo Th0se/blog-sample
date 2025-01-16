@@ -9,7 +9,6 @@ import type { ActionFunctionArgs } from '@remix-run/node';
 import { formStrategy } from '../utilities/authentication.server';
 
 const action = async ({ request }: ActionFunctionArgs) => {
-    console.log(request);
     try {
         const response = await formStrategy.authenticate(request);
         return response;
@@ -23,35 +22,45 @@ const action = async ({ request }: ActionFunctionArgs) => {
 
 const Login: FunctionComponent = () => {
     const actionData = useActionData<typeof action>();
+
     return (
         <div>
-            <div>
-                <h2>Login</h2>
-                <form method='post'>
+            <div className='flex flex-col items-center py-4'>
+                <form
+                    method='post'
+                    className='grid gap-4'
+                >
                     <input
                         type='hidden'
                         name='actionType'
                         value='login'
                     />
-                    <label>
-                        Email
+                    <label className='input input-bordered flex items-center gap-4 w-[20rem] md:w-[40rem] xl:w-[55rem]'>
+                        <span className='text-info'>Email</span>
                         <input
                             type='email'
                             name='email'
                         />
                     </label>
-                    <label>
-                        Password
+                    <label className='input input-bordered flex items-center gap-4 w-[20rem] md:w-[40rem] xl:w-[55rem]'>
+                        <span className='text-info'>Password</span>
                         <input
                             type='password'
                             name='password'
                         />
                     </label>
-                    <button type='submit'>Login</button>
+                    <button
+                        type='submit'
+                        className='btn btn-primary'
+                    >
+                        Login
+                    </button>
                 </form>
             </div>
-            <div>
-                <p>{actionData}</p>
+            <div className='flex flex-col items-center py-4'>
+                <p className='text-error'>
+                    {actionData ? JSON.parse(actionData).message : null}
+                </p>
             </div>
         </div>
     );

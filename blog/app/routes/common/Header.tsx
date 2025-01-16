@@ -41,7 +41,7 @@ const Header: FunctionComponent = () => {
                             : 'link link-accent link-hover'
                     }
                 >
-                    Authenticate
+                    Account
                 </NavLink>
             </div>
         </header>

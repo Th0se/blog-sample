@@ -1,4 +1,8 @@
-/** @format */
+/**
+ * eslint-disable jsx-a11y/label-has-associated-control
+ *
+ * @format
+ */
 
 // import from React and Remix
 import { FunctionComponent } from 'react';
@@ -26,40 +30,49 @@ const Register: FunctionComponent = () => {
 
     return (
         <div>
-            <div>
-                <h2>Register</h2>
-                <form method='post'>
+            <div className='flex flex-col items-center py-4'>
+                <form
+                    method='post'
+                    className='grid gap-4'
+                >
                     <input
                         type='hidden'
                         name='actionType'
                         value='register'
                     />
-                    <label>
-                        Email
+                    <label className='input input-bordered flex items-center gap-4 w-[20rem] md:w-[40rem] xl:w-[55rem]'>
+                        <span className='text-info'>Email</span>
                         <input
                             type='email'
                             name='email'
                         />
                     </label>
-                    <label>
-                        Password
+                    <label className='input input-bordered flex items-center gap-4 w-[20rem] md:w-[40rem] xl:w-[55rem]'>
+                        <span className='text-info'>Password</span>
                         <input
                             type='password'
                             name='password'
                         />
                     </label>
-                    <label>
-                        Confirm password
+                    <label className='input input-bordered flex items-center gap-4 w-[20rem] md:w-[40rem] xl:w-[55rem]'>
+                        <span className='text-info'>Confirm Password</span>
                         <input
                             type='password'
                             name='passwordConfirm'
                         />
                     </label>
-                    <button type='submit'>Register</button>
+                    <button
+                        type='submit'
+                        className='btn btn-primary'
+                    >
+                        Register
+                    </button>
                 </form>
             </div>
-            <div>
-                <p>{actionData}</p>
+            <div className='flex flex-col items-center py-4'>
+                <p className='text-error'>
+                    {actionData ? JSON.parse(actionData).message : null}
+                </p>
             </div>
         </div>
     );

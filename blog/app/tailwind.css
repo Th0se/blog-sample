@@ -6,6 +6,7 @@
 
 main {
     @apply bg-[base] p-2;
+    @apply overflow-x-hidden;
 }
 
 h1 {

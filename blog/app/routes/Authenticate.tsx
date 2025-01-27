@@ -1,7 +1,7 @@
 /** @format */
 
 import { FunctionComponent } from 'react';
-import { NavLink, Outlet, useLoaderData } from '@remix-run/react';
+import { NavLink, Outlet, useLoaderData, Link } from '@remix-run/react';
 import { LoaderFunctionArgs, ActionFunctionArgs } from '@remix-run/node';
 
 import Header from './common/Header';
@@ -10,11 +10,11 @@ import {
     formStrategy,
 } from '../utilities/authentication.server';
 
-const loader = async ({ request }: LoaderFunctionArgs) => {
-    /*
+/*
     Check if user is authenticated. 
     This is needed to decide the rendered page.
     */
+const loader = async ({ request }: LoaderFunctionArgs) => {
     try {
         const response = await formAuthenticationCheck(request);
         if (!response) {
@@ -39,6 +39,9 @@ const loader = async ({ request }: LoaderFunctionArgs) => {
     }
 };
 
+/*
+    Handle logout.
+*/
 const action = async ({ request }: ActionFunctionArgs) => {
     try {
         const response = await formStrategy.authenticate(request);
@@ -71,6 +74,23 @@ const Authenticate: FunctionComponent = () => {
                                 You are authenticated as a {loaderData.role}
                             </p>
                         </div>
+                        {loaderData.role === 'maintainer' ? (
+                            <div className='border-accent p-4 grid gap-2 mb-4 bg-accent-content'>
+                                <h2 className='pb-[1.5rem]'>Blog management</h2>
+                                <Link
+                                    to='/maintainer/post/create'
+                                    className='btn btn-primary btn-outline'
+                                >
+                                    Create a post
+                                </Link>
+                                <button className='btn btn-primary btn-outline'>
+                                    Manage posts
+                                </button>
+                                <button className='btn btn-primary btn-outline'>
+                                    Manage comments
+                                </button>
+                            </div>
+                        ) : null}
                         <form method='post'>
                             <input
                                 type='hidden'
@@ -79,7 +99,7 @@ const Authenticate: FunctionComponent = () => {
                             />
                             <button
                                 type='submit'
-                                className='btn btn-warning'
+                                className='btn btn-warning btn-outline'
                             >
                                 Logout
                             </button>

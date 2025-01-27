@@ -14,6 +14,11 @@ h1 {
     @apply text-[2rem] md:text-[4rem] lg:text-[5rem];
 }
 
+h2 {
+    @apply text-center;
+    @apply text-[1.75rem] md:text-[3rem] lg:text-[4rem];
+}
+
 .active_tab {
     @apply tab-active;
     @apply bg-accent text-accent-content !important;
@@ -25,4 +30,5 @@ h1 {
     @apply text-center;
     @apply tabs tabs-boxed;
     @apply bg-neutral border-neutral-content;
+    @apply mb-4;
 }

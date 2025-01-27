@@ -58,90 +58,6 @@ const formStrategy = new FormStrategy(async ({ form, request }) => {
         }
     }
 
-    // Validate email and password.
-    const validate = (() => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const isValidEmail = (email: string) => {
-            return emailRegex.test(email);
-        };
-
-        const isPasswordSecure = (password: string): boolean | string => {
-            // At least 12 characters (modern standard for strong passwords)
-            const minLength = 12;
-
-            // Regular expression checks for key components of password security
-            const hasUppercase = /[A-Z]/.test(password); // At least one uppercase letter
-            const hasLowercase = /[a-z]/.test(password); // At least one lowercase letter
-            const hasDigit = /\d/.test(password); // At least one number
-            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_\-[\]\\/`~]/.test(
-                password
-            );
-            // Special characters set
-            const hasNoSpaces = !/\s/.test(password); // Should not include spaces
-
-            // Password must not use easily guessable patterns
-            const isCommonPassword = /1234|password|qwerty|1111|letmein/i.test(
-                password
-            );
-            const hasSequentialChars = /(abc|def|ghi|123|987|xyz)/i.test(
-                password
-            );
-            if (password.length < minLength) {
-                return 'Password must be at least 12 characters';
-            }
-            if (!hasUppercase) {
-                return 'Password must contain at least one uppercase letter';
-            }
-            if (!hasLowercase) {
-                return 'Password must contain at least one lowercase letter';
-            }
-            if (!hasDigit) {
-                return 'Password must include at least a number';
-            }
-            if (!hasSpecialChar) {
-                return 'Password must include at least a special character';
-            }
-            if (!hasNoSpaces) {
-                return 'Password must not include spaces';
-            }
-            if (isCommonPassword) {
-                return 'Password is too common';
-            }
-            if (hasSequentialChars) {
-                return 'Password is too sequential';
-            }
-
-            return true;
-        };
-
-        return { isValidEmail, isPasswordSecure };
-    })();
-
-    // Reject invalid email and password.
-    if (!validate.isValidEmail(email as string)) {
-        const response = new Response(
-            JSON.stringify({ message: 'Invalid email' }),
-            {
-                status: 400,
-                statusText: 'Bad Request',
-            }
-        );
-
-        return response;
-    } else if (validate.isPasswordSecure(password as string) !== true) {
-        const response = new Response(
-            JSON.stringify({
-                message: validate.isPasswordSecure(password as string),
-            }),
-            {
-                status: 400,
-                statusText: 'Bad Request',
-            }
-        );
-
-        return response;
-    }
-
     if (actionType === 'login') {
         const user = await prisma.user.findUnique({
             where: {
@@ -193,6 +109,90 @@ const formStrategy = new FormStrategy(async ({ form, request }) => {
             return response;
         }
     } else if (actionType === 'register') {
+        // Validate email and password.
+        const validate = (() => {
+            const emailRegex =
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const isValidEmail = (email: string) => {
+                return emailRegex.test(email);
+            };
+
+            const isPasswordSecure = (password: string): boolean | string => {
+                // At least 12 characters (modern standard for strong passwords)
+                const minLength = 12;
+
+                // Regular expression checks for key components of password security
+                const hasUppercase = /[A-Z]/.test(password); // At least one uppercase letter
+                const hasLowercase = /[a-z]/.test(password); // At least one lowercase letter
+                const hasDigit = /\d/.test(password); // At least one number
+                const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_\-[\]\\/`~]/.test(
+                    password
+                );
+                // Special characters set
+                const hasNoSpaces = !/\s/.test(password); // Should not include spaces
+
+                // Password must not use easily guessable patterns
+                const isCommonPassword =
+                    /1234|password|qwerty|1111|letmein/i.test(password);
+                const hasSequentialChars = /(abc|def|ghi|123|987|xyz)/i.test(
+                    password
+                );
+                if (password.length < minLength) {
+                    return 'Password must be at least 12 characters';
+                }
+                if (!hasUppercase) {
+                    return 'Password must contain at least one uppercase letter';
+                }
+                if (!hasLowercase) {
+                    return 'Password must contain at least one lowercase letter';
+                }
+                if (!hasDigit) {
+                    return 'Password must include at least a number';
+                }
+                if (!hasSpecialChar) {
+                    return 'Password must include at least a special character';
+                }
+                if (!hasNoSpaces) {
+                    return 'Password must not include spaces';
+                }
+                if (isCommonPassword) {
+                    return 'Password is too common';
+                }
+                if (hasSequentialChars) {
+                    return 'Password is too sequential';
+                }
+
+                return true;
+            };
+
+            return { isValidEmail, isPasswordSecure };
+        })();
+
+        // Reject invalid email and password.
+        if (!validate.isValidEmail(email as string)) {
+            const response = new Response(
+                JSON.stringify({ message: 'Invalid email' }),
+                {
+                    status: 400,
+                    statusText: 'Bad Request',
+                }
+            );
+
+            return response;
+        } else if (validate.isPasswordSecure(password as string) !== true) {
+            const response = new Response(
+                JSON.stringify({
+                    message: validate.isPasswordSecure(password as string),
+                }),
+                {
+                    status: 400,
+                    statusText: 'Bad Request',
+                }
+            );
+
+            return response;
+        }
+
         if (!passwordConfirm || password !== passwordConfirm) {
             const response = new Response(
                 JSON.stringify({ message: 'Passwords do not match' }),

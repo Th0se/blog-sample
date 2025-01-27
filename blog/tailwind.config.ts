@@ -23,6 +23,6 @@ export default {
     },
     plugins: [daisyUI],
     daisyui: {
-        themes: ['sunset'],
+        themes: ['night'],
     },
 } satisfies Config;

@@ -1,4 +1,6 @@
-/** @format */
+/**
+ * @format
+ */
 
 // Library imports.
 import { useState, FunctionComponent } from 'react';
@@ -17,6 +19,7 @@ const action = async ({ request }: ActionFunctionArgs) => {
         const response = await createPost(request);
         return response;
     } catch (error) {
+        console.log(error);
         const response = new Response(
             JSON.stringify({ message: 'Error during post creation', error }),
             { status: 400, statusText: 'Error' }
@@ -31,19 +34,81 @@ const Create: FunctionComponent = () => {
         '<p>Block the text to style it.</p>'
     );
     const [title, setTitle] = useState<string>('');
+    const [category, setCategory] = useState<string>('plants');
+    const [subCategory, setSubCategory] = useState<string>('Succulents');
     const actionData = useActionData<typeof action>();
+
+    const handleCategoryChange = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        console.log(event.target.value);
+        setCategory(event.target.value);
+        if (event.target.value === 'Plants') {
+            setSubCategory('Succulents');
+        } else {
+            setSubCategory('Boiled');
+        }
+    };
 
     return (
         <div className='grid gap-4'>
-            <div>
-                <input
-                    type='text'
-                    placeholder='Title'
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className='w-full input input-bordered border-accent focus:border-accent focus:border-[3px]'
-                />
-            </div>
+            <input
+                type='text'
+                placeholder='Title'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className='w-full input input-bordered border-accent focus:border-accent focus:border-[3px]'
+            />
+            <label className='form-control'>
+                <div className='label'>
+                    <span className='label-text text-info'>
+                        Select a category
+                    </span>
+                </div>
+                <select
+                    className='select select-bordered w-full border-accent focus:border-accent focus:border-[3px]'
+                    defaultValue={category}
+                    onChange={handleCategoryChange}
+                >
+                    <option>Plants</option>
+                    <option>Meals</option>
+                </select>
+            </label>
+            <label className='form-control'>
+                <div className='label'>
+                    <span className='label-text text-info'>
+                        Select a subcategory
+                    </span>
+                </div>
+                <select
+                    className='select select-bordered w-full border-accent focus:border-accent focus:border-[3px]'
+                    defaultValue={subCategory}
+                    onChange={(e) => {
+                        setSubCategory(e.target.value);
+                    }}
+                >
+                    {category === 'plants' ? (
+                        <>
+                            <option>Succulents</option>
+                            <option>Orchids</option>
+                            <option>Annuals</option>
+                            <option>Biennials</option>
+                            <option>Vines</option>
+                            <option>Herbs</option>
+                        </>
+                    ) : (
+                        <>
+                            <option>Boiled</option>
+                            <option>Baked</option>
+                            <option>Grilled</option>
+                            <option>Roasted</option>
+                            <option>Fried</option>
+                            <option>Steamed</option>
+                            <option>Raw</option>
+                        </>
+                    )}
+                </select>
+            </label>
             <Editor
                 content={content}
                 setContent={setContent}
@@ -58,6 +123,11 @@ const Create: FunctionComponent = () => {
                     type='hidden'
                     name='title'
                     value={title}
+                />
+                <input
+                    type='hidden'
+                    name='category'
+                    value={subCategory}
                 />
                 <button
                     type='submit'

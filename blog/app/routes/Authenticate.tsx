@@ -75,7 +75,7 @@ const Authenticate: FunctionComponent = () => {
                             </p>
                         </div>
                         {loaderData.role === 'maintainer' ? (
-                            <div className='border-accent p-4 grid gap-2 mb-4 bg-accent-content'>
+                            <div className='p-4 grid gap-2 mb-4 bg-accent-content'>
                                 <h2 className='pb-[1.5rem]'>Blog management</h2>
                                 <Link
                                     to='/maintainer/post/create'
@@ -83,9 +83,12 @@ const Authenticate: FunctionComponent = () => {
                                 >
                                     Create a post
                                 </Link>
-                                <button className='btn btn-primary btn-outline'>
+                                <Link
+                                    to='/maintainer/post/manage/1'
+                                    className='btn btn-primary btn-outline'
+                                >
                                     Manage posts
-                                </button>
+                                </Link>
                                 <button className='btn btn-primary btn-outline'>
                                     Manage comments
                                 </button>

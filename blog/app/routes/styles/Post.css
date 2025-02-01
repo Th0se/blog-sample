@@ -1,0 +1,11 @@
+/** @format */
+
+.post-content ul {
+    @apply list-disc;
+    @apply pl-4;
+}
+
+.post-content ol {
+    @apply list-decimal;
+    @apply pl-4;
+}

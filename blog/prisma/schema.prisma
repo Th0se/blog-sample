@@ -27,6 +27,7 @@ model Post {
   value String
   posted DateTime @default(now())
   comments Comment[]
+  category String
 }
 
 model Comment {

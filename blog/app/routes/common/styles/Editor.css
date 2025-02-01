@@ -1,0 +1,43 @@
+/** @format */
+
+.editor_button {
+    @apply btn btn-outline btn-accent;
+}
+
+.editor_menu_bubble {
+    @apply bg-neutral;
+    @apply w-[18rem];
+    @apply grid grid-cols-6 gap-2;
+}
+
+.editor_menu_floating {
+    @apply bg-neutral;
+    @apply w-[18rem];
+    @apply grid grid-cols-6 gap-2;
+}
+
+.editor-content ul {
+    @apply list-disc;
+    @apply pl-4;
+}
+
+.editor-content ol {
+    @apply list-decimal;
+    @apply pl-4;
+}
+
+.editor-content li p {
+    display: inline;
+}
+
+.editor-content blockquote {
+    @apply border-[1px];
+    @apply border-l-[4px];
+    @apply border-accent;
+    @apply p-2;
+    @apply pl-4;
+}
+
+.editor-content pre code {
+    @apply bg-base-300;
+}

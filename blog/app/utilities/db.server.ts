@@ -83,7 +83,6 @@ const retrievePost = async (request: Request, data: { id: string }) => {
             id: postId,
         },
     });
-
     if (!post) {
         const response = new Response(
             JSON.stringify({ message: 'Post does not exist' }),
@@ -111,7 +110,29 @@ const latestPost = async () => {
         },
     });
 
-    const response = new Response(JSON.stringify(latest), {
+    if (!latest) {
+        const response = new Response(
+            JSON.stringify({ message: 'No posts found' }),
+            {
+                status: 404,
+                statusText: 'Not Found',
+            }
+        );
+        return response;
+    } else {
+        const response = new Response(JSON.stringify(latest), {
+            status: 200,
+            statusText: 'OK',
+        });
+
+        return response;
+    }
+};
+
+const countPost = async () => {
+    const count = await prisma.post.count();
+
+    const response = new Response(JSON.stringify(count), {
         status: 200,
         statusText: 'OK',
     });
@@ -119,8 +140,16 @@ const latestPost = async () => {
     return response;
 };
 
-const countPost = async () => {
-    const count = await prisma.post.count();
+const countCategory = async (data: { category: string }) => {
+    const category = data.category;
+    const count = await prisma.post.count({
+        where: {
+            category: {
+                mode: 'insensitive',
+                equals: category,
+            },
+        },
+    });
 
     const response = new Response(JSON.stringify(count), {
         status: 200,
@@ -149,10 +178,39 @@ const gatherPost = async (request: Request, data: { page: number }) => {
     return response;
 };
 
+const gatherCategory = async (
+    request: Request,
+    data: { category: string; page: number }
+) => {
+    const category = data.category;
+    const number = data.page * 12 - 12;
+
+    const gathered = await prisma.post.findMany({
+        where: {
+            category: {
+                mode: 'insensitive',
+                equals: category,
+            },
+        },
+        skip: number,
+        take: 12,
+        orderBy: {
+            posted: 'desc',
+        },
+    });
+
+    const response = new Response(JSON.stringify(gathered), {
+        status: 200,
+        statusText: 'OK',
+    });
+
+    return response;
+};
+
 const deletePost = async (request: Request) => {
     const form = await request.formData();
     const postId = form.get('postId') as string;
-    console.log(postId);
+
     const post = await prisma.post.findUnique({
         where: {
             id: postId,
@@ -191,6 +249,54 @@ const deletePost = async (request: Request) => {
     }
 };
 
+const updatePost = async (request: Request, data: { id: string }) => {
+    const id = data.id;
+    const form = await request.formData();
+    const title = form.get('title') as string;
+    const value = form.get('value') as string;
+
+    const exists = await prisma.post.findUnique({
+        where: {
+            id: id,
+        },
+    });
+
+    if (!exists) {
+        const response = new Response(
+            JSON.stringify({ message: 'Post does not exist' }),
+            {
+                status: 404,
+                statusText: 'Not Found',
+            }
+        );
+
+        return response;
+    }
+
+    const updatedPost = await prisma.post.update({
+        where: {
+            id: id,
+        },
+        data: {
+            title: title,
+            value: value,
+        },
+    });
+
+    const response = new Response(
+        JSON.stringify({ message: `Post ${updatedPost.title} updated` }),
+        {
+            status: 303,
+            statusText: 'Updated',
+            headers: {
+                Location: `/post/${updatedPost.id}/view`,
+            },
+        }
+    );
+
+    return response;
+};
+
 export default prisma;
 export {
     createPost,
@@ -198,5 +304,8 @@ export {
     latestPost,
     gatherPost,
     countPost,
+    countCategory,
     deletePost,
+    updatePost,
+    gatherCategory,
 };

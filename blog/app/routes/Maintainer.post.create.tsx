@@ -51,93 +51,95 @@ const Create: FunctionComponent = () => {
     };
 
     return (
-        <div className='grid gap-4'>
-            <input
-                type='text'
-                placeholder='Title'
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className='w-full input input-bordered border-accent focus:border-accent focus:border-[3px]'
-            />
-            <label className='form-control'>
-                <div className='label'>
-                    <span className='label-text text-info'>
-                        Select a category
-                    </span>
-                </div>
-                <select
-                    className='select select-bordered w-full border-accent focus:border-accent focus:border-[3px]'
-                    defaultValue={category}
-                    onChange={handleCategoryChange}
-                >
-                    <option>Plants</option>
-                    <option>Meals</option>
-                </select>
-            </label>
-            <label className='form-control'>
-                <div className='label'>
-                    <span className='label-text text-info'>
-                        Select a subcategory
-                    </span>
-                </div>
-                <select
-                    className='select select-bordered w-full border-accent focus:border-accent focus:border-[3px]'
-                    defaultValue={subCategory}
-                    onChange={(e) => {
-                        setSubCategory(e.target.value);
-                    }}
-                >
-                    {category === 'plants' ? (
-                        <>
-                            <option>Succulents</option>
-                            <option>Orchids</option>
-                            <option>Annuals</option>
-                            <option>Biennials</option>
-                            <option>Vines</option>
-                            <option>Herbs</option>
-                        </>
-                    ) : (
-                        <>
-                            <option>Boiled</option>
-                            <option>Baked</option>
-                            <option>Grilled</option>
-                            <option>Roasted</option>
-                            <option>Fried</option>
-                            <option>Steamed</option>
-                            <option>Raw</option>
-                        </>
-                    )}
-                </select>
-            </label>
-            <Editor
-                content={content}
-                setContent={setContent}
-            />
-            <form method='post'>
+        <div className='lg:grid lg:grid-cols-5'>
+            <div className='grid gap-4 lg:col-start-2 lg:col-span-3'>
                 <input
-                    type='hidden'
-                    name='content'
-                    value={content}
-                />
-                <input
-                    type='hidden'
-                    name='title'
+                    type='text'
+                    placeholder='Title'
                     value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className='w-full input input-bordered border-accent focus:border-accent focus:border-[3px]'
                 />
-                <input
-                    type='hidden'
-                    name='category'
-                    value={subCategory}
+                <label className='form-control'>
+                    <div className='label'>
+                        <span className='label-text text-info'>
+                            Select a category
+                        </span>
+                    </div>
+                    <select
+                        className='select select-bordered w-full border-accent focus:border-accent focus:border-[3px]'
+                        defaultValue={category}
+                        onChange={handleCategoryChange}
+                    >
+                        <option>Plants</option>
+                        <option>Meals</option>
+                    </select>
+                </label>
+                <label className='form-control'>
+                    <div className='label'>
+                        <span className='label-text text-info'>
+                            Select a subcategory
+                        </span>
+                    </div>
+                    <select
+                        className='select select-bordered w-full border-accent focus:border-accent focus:border-[3px]'
+                        defaultValue={subCategory}
+                        onChange={(e) => {
+                            setSubCategory(e.target.value);
+                        }}
+                    >
+                        {category === 'plants' ? (
+                            <>
+                                <option>Succulents</option>
+                                <option>Orchids</option>
+                                <option>Annuals</option>
+                                <option>Biennials</option>
+                                <option>Vines</option>
+                                <option>Herbs</option>
+                            </>
+                        ) : (
+                            <>
+                                <option>Boiled</option>
+                                <option>Baked</option>
+                                <option>Grilled</option>
+                                <option>Roasted</option>
+                                <option>Fried</option>
+                                <option>Steamed</option>
+                                <option>Raw</option>
+                            </>
+                        )}
+                    </select>
+                </label>
+                <Editor
+                    content={content}
+                    setContent={setContent}
                 />
-                <button
-                    type='submit'
-                    className='btn btn-primary btn-outline w-full'
-                >
-                    Create
-                </button>
-            </form>
-            <div className='text-center'>
-                {actionData ? JSON.parse(actionData).message : ''}
+                <form method='post'>
+                    <input
+                        type='hidden'
+                        name='content'
+                        value={content}
+                    />
+                    <input
+                        type='hidden'
+                        name='title'
+                        value={title}
+                    />
+                    <input
+                        type='hidden'
+                        name='category'
+                        value={subCategory}
+                    />
+                    <button
+                        type='submit'
+                        className='btn btn-primary w-full'
+                    >
+                        Create
+                    </button>
+                </form>
+                <div className='text-center'>
+                    {actionData ? JSON.parse(actionData).message : ''}
+                </div>
             </div>
         </div>
     );

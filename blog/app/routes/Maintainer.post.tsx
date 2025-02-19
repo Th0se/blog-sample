@@ -21,7 +21,7 @@ const Post: FunctionComponent = () => {
                         Create a post
                     </NavLink>
                     <NavLink
-                        to='/maintainer/post/manage'
+                        to='/maintainer/post/manage/1'
                         role='tab'
                         className={({ isActive }) =>
                             !isActive ? 'tab' : 'tab active_tab'

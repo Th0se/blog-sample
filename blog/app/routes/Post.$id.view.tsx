@@ -52,7 +52,17 @@ const Post: FunctionComponent = () => {
                 <div className='lg:col-start-2 lg:col-span-3'>
                     <h1 className='text-start'>{data.post.title}</h1>
                     <div className='border-y border-solid border-accent py-2'>
-                        <p className='text-start'>{data.post.posted}</p>
+                        <p className='text-start'>
+                            {new Intl.DateTimeFormat('en-GB', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                timeZoneName: 'short',
+                            }).format(new Date(data.post.posted))}
+                        </p>
                         <div className='grid'>
                             <Link
                                 to={`/post/${data.post.id}/comments`}

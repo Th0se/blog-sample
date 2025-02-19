@@ -30,18 +30,6 @@ model Post {
   category String
 }
 
-model Comment {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  value String
-  commented DateTime @default(now())
-  commenterId String
-  commenter User @relation(fields: [commenterId], references: [id])
-  postId String
-  post Post @relation(fields: [postId], references: [id])
-  @@index([commenterId])
-  @@index([postId])
-}
-
 model Session {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   data String

@@ -26,7 +26,6 @@ model Post {
   title String @unique
   value String
   posted DateTime @default(now())
-  comments Comment[]
   category String
 }
 

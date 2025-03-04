@@ -14,6 +14,11 @@
 
 These are values required in the `.env` file.
 
+1. `DATABASE_URL`
+   URL to the database.
+2. `session_secret`
+   Secret string to secure sessions.
+
 # Styles
 
 1. `<main>` and every container inside `<main>` should be padded. A safe minimum is `0.5rem`, but `0.25` may be acceptable in some cases.
